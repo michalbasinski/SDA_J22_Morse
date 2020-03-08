@@ -50,11 +50,20 @@ public class MorseDictionary implements Dictionary {
     }
 
     @Override
-    public String getReversed(String character) {
+    public String getReversed(String morseCharacter) {
         return dictionary.entrySet().stream()
-                .filter(x -> character.equals(x.getValue()))
+                .filter(x -> morseCharacter.equals(x.getValue()))
                 .findFirst()
-                .get()
+                .orElseThrow(() -> new RuntimeException("NIEOBSŁUGIWANY ZNAK"))
                 .getKey();
+    }
+
+    public String getReversedAlternative(String morseCharacter) {
+        for (Map.Entry<String, String> entry : dictionary.entrySet()) {
+            if (morseCharacter.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }
